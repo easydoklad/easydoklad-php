@@ -1,7 +1,7 @@
 <?php
 
 
-namespace EasyDoklad\SDK\Models;
+namespace EasyDoklad\SDK\Responses\DTO;
 
 
 class InvoiceLine

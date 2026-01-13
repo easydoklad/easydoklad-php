@@ -4,7 +4,7 @@
 namespace EasyDoklad\SDK\Connectors;
 
 
-use EasyDoklad\SDK\Contracts\CollectModels;
+use EasyDoklad\SDK\Contracts\CollectPaginatedDTOs;
 use Saloon\Contracts\Authenticator;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
@@ -63,7 +63,7 @@ class DefaultConnector extends Connector implements HasPagination
 
             protected function getPageItems(Response $response, Request $request): array
             {
-                if ($request instanceof CollectModels) {
+                if ($request instanceof CollectPaginatedDTOs) {
                     return array_map(
                         fn (array $item) => $request->createItemDtoFromResponse($response, $item),
                         $response->json('data')

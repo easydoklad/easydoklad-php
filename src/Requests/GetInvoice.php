@@ -4,7 +4,7 @@
 namespace EasyDoklad\SDK\Requests;
 
 
-use EasyDoklad\SDK\Models\Invoice;
+use EasyDoklad\SDK\Responses\DTO\Invoice;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
