@@ -1,0 +1,91 @@
+<?php
+
+
+namespace EasyDoklad\SDK\Models;
+
+
+class Invoice
+{
+    public function __construct(
+        public readonly string            $id,
+        public readonly bool              $isDraft,
+        public readonly bool              $isLocked,
+        public readonly bool              $isSent,
+        public readonly bool              $isPaid,
+        public readonly Company           $supplier,
+        public readonly Company           $customer,
+        public readonly ?string           $issuedAt,
+        public readonly ?string           $suppliedAt,
+        public readonly ?string           $paymentDueTo,
+        public readonly ?string           $number,
+        public readonly string            $paymentMethod,
+        public readonly ?string           $variableSymbol,
+        public readonly ?string           $specificSymbol,
+        public readonly ?string           $constantSymbol,
+        public readonly string            $currency,
+        public readonly ?int              $totalVatExclusive,
+        public readonly ?int              $totalVatInclusive,
+        public readonly ?int              $vatAmount,
+        public readonly ?int              $totalToPay,
+        public readonly ?int              $remainingToPay,
+        public readonly ?string           $issuedBy,
+        public readonly ?string           $issuedByEmail,
+        public readonly ?string           $issuedByPhoneNumber,
+        public readonly ?string           $issuedByWebsite,
+        public readonly bool              $vatEnabled,
+        public readonly bool              $vatReverseCharge,
+        public readonly bool              $showPayBySquare,
+        public readonly ?string           $footerNote,
+        public readonly DocumentTemplate  $template,
+        public readonly NumberSequence    $sequence,
+        public readonly ?BankTransferInfo $bankTransferInfo,
+        public readonly array             $payments,
+        public readonly array             $vatBreakdown,
+        public readonly array             $lines,
+        public readonly string            $createdAt,
+        public readonly string            $updatedAt,
+    ) { }
+
+    public static function fromArray(array $invoice): static
+    {
+        return new static(
+            id: $invoice['id'],
+            isDraft: $invoice['is_draft'],
+            isLocked: $invoice['is_locked'],
+            isSent: $invoice['is_sent'],
+            isPaid: $invoice['is_paid'],
+            supplier: Company::fromArray($invoice['supplier']),
+            customer: Company::fromArray($invoice['customer']),
+            issuedAt: $invoice['issued_at'],
+            suppliedAt: $invoice['supplied_at'],
+            paymentDueTo: $invoice['payment_due_to'],
+            number: $invoice['invoice_number'],
+            paymentMethod: $invoice['payment_method'],
+            variableSymbol: $invoice['variable_symbol'],
+            specificSymbol: $invoice['specific_symbol'],
+            constantSymbol: $invoice['constant_symbol'],
+            currency: $invoice['currency'],
+            totalVatExclusive: $invoice['total_vat_exclusive'],
+            totalVatInclusive: $invoice['total_vat_inclusive'],
+            vatAmount: $invoice['vat_amount'],
+            totalToPay: $invoice['total_to_pay'],
+            remainingToPay: $invoice['remaining_to_pay'],
+            issuedBy: $invoice['issued_by'],
+            issuedByEmail: $invoice['issued_by_email'],
+            issuedByPhoneNumber: $invoice['issued_by_phone_number'],
+            issuedByWebsite: $invoice['issued_by_website'],
+            vatEnabled: $invoice['vat_enabled'],
+            vatReverseCharge: $invoice['vat_reverse_charge'],
+            showPayBySquare: $invoice['show_pay_by_square'],
+            footerNote: $invoice['footer_note'],
+            template: DocumentTemplate::fromArray($invoice['template']),
+            sequence: NumberSequence::fromArray($invoice['number_sequence']),
+            bankTransferInfo: $invoice['bank_transfer_info'] ? BankTransferInfo::fromArray($invoice['bank_transfer_info']) : null,
+            payments: array_map(fn (array $payment) => Payment::fromArray($payment), $invoice['payments']),
+            vatBreakdown: array_map(fn (array $line) => VatBreakdownLine::fromArray($line), $invoice['vat_breakdown']),
+            lines: array_map(fn (array $line) => InvoiceLine::fromArray($line), $invoice['lines']),
+            createdAt: $invoice['created_at'],
+            updatedAt: $invoice['updated_at'],
+        );
+    }
+}
