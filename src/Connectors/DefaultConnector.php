@@ -18,7 +18,7 @@ class DefaultConnector extends Connector implements HasPagination
 {
     public function __construct(
         protected readonly string $apiKey,
-        protected readonly string $host = 'https://faktury.stacktrace.sk/api/v1',
+        protected readonly string $host = 'https://easydoklad.sk/api/v1',
         protected readonly bool   $verifySSLCertificate = true,
     ) { }
 
